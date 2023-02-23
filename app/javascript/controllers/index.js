@@ -4,8 +4,14 @@
 
 import { application } from "./application"
 
+import BannerController from "./banner_controller"
+application.register("banner", BannerController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
 import NavbarController from "./navbar_controller"
 application.register("navbar", NavbarController)
+
+import PhotoinfoController from "./photoinfo_controller"
+application.register("photoinfo", PhotoinfoController)

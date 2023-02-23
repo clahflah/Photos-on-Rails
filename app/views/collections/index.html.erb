@@ -1,9 +1,28 @@
-<h1>All collections</h1>
-<% @collections.each do |collection| %>
-  <%= link_to collection.name, collection_path(collection.id) %>
-  <% if collection.cover != nil %>
-    <%= cl_image_tag @photos.find(id = collection.cover).photo.key, height: 100, width: 100 %>
-  <% else %>
-    <span>No cover image selected</span>
+<h1 class="title">My Collections</h1>
+<div class="collections-container">
+  <% @collections.each do |collection| %>
+    <div class="collection-card" data-aos=<%= @collections.find_index(collection).even? || @collections.find_index(collection) === 0 ? "fade-right" : "fade-left" %> data-aos-duration="1000">
+      <% if collection.cover != nil %>
+        <%= cl_image_tag @photos.find(id = collection.cover).photo.key %>
+      <% else %>
+        <span>No cover image selected</span>
+      <% end %>
+      <div class="collection-card-text">
+        <div class="collection-card-link <%= collection.name.include?(" ")? "small-title" : " " %>">
+          <h1><%= link_to collection.name, collection_path(collection.id) %></h1>
+        </div>
+        <% if collection.description.length > 30 %>
+          <div>
+            <p><%= collection.description[0..30] %>...<p>
+            <div id="seemore">
+              <%= link_to "See more", collection_path(collection.id) %>
+            </div>
+          </div>
+        <% else %>
+          <%= collection.description %>
+        <% end %>
+      </div>
+    </div>
   <% end %>
-<% end %>
+</div>
+<%= link_to "Add Collection", new_collection_path, class:"button user-buttons-container mt-5 w-25" if policy(@collections).create? %>
